@@ -1,0 +1,9 @@
+node_modules
+doc.md
+task.md
+README.md
+.env
+src/test.ts
+Dockerfile
+jest.config.js
+docker-compose.yml

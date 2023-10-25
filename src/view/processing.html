@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TRANSLAGE - Processing PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f8fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            width: 400px;
+        }
+
+        .container-content h1 {
+            color: #0366d6;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        #processing-message {
+            font-size: 18px;
+            color: #586069;
+        }
+
+        #processing-spinner {
+            margin-top: 20px;
+            font-size: 36px;
+            color: #0366d6;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container-content">
+            <h1>TRANSLAGE</h1>
+            <div id="processing-message">Processing your PDF...</div>
+            <div id="processing-spinner">⭮</div>
+            <div class="loading-text">Please wait while we process your PDF file.</div>
+        </div>
+    </div>
+</body>
+</html>
