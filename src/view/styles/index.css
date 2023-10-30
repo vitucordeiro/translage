@@ -1,0 +1,61 @@
+body {
+    background-color: #24292e; /* Cor de fundo escura do GitHub */
+    color: #ffffff; /* Cor do texto principal */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.container-content {
+    background-color: #2d333b; /* Cor de fundo do conteúdo */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+h1 {
+    color: #58a6ff; /* Cor do título */
+    font-size: 2.5rem;
+}
+
+p {
+    color: #c9d1d9; /* Cor do texto secundário */
+    font-size: 1.2rem;
+}
+
+.select-container {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    color: #c9d1d9;
+}
+
+select {
+    background-color: #2d333b;
+    color: #c9d1d9;
+    border: 1px solid #6e7681;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#inputButton {
+    background-color: #2ea043; /* Cor de destaque para o botão */
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#inputButton:hover {
+    background-color: #24a439; /* Cor de destaque ao passar o mouse */
+}

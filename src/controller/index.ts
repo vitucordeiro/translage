@@ -29,15 +29,15 @@ class Controller {
             
             const result = await services.extractData(path)
             const mapContent = await services.mappingContentPDF(result,to);
-            const translatedContent = await services.translate(mapContent)
-            await services.createAndSavePDF(translatedContent, Response);
-            console.log('opa')  
+            const translatedContent = await services.translate(mapContent);
+            let pagesLength = translatedContent.pages.length;
+            return await services.createAndSavePDF(translatedContent, pagesLength, Response);
 
 
         } catch (error) {
             Response.status(400).json({ error: error.message });
         }
-    return Response.sendFile('/src/view/processing.html', {root: '.'});
+    return Response.sendStatus(201)
     }
 }
 

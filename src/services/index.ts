@@ -71,38 +71,47 @@ class Services {
         }
         return pageInfo;
       }
-
-      async createPDF(pageInfo) {
+      // Comportamento inesperado nesta função. O retorno inesperado pode ser devido às linhas (88 - 102)
+      private async createPDF(pageInfo:PageInfo, pagesLength:number) {
         return new Promise<Buffer>((resolve, reject) => {
+          console.time('Creating PDF');
           // Configuração do Pdfkit
-          const pdfDoc = pdfCreate;
-          const buffers = [];
-          let range = pdfDoc.bufferedPageRange()
+          const pdfDoc = pdfCreate 
+          const buffers: Buffer[] = [];
           pdfDoc.on('data', buffers.push.bind(buffers));
+
           pdfDoc.on('end', () => {
             const pdfData = Buffer.concat(buffers);
             resolve(pdfData);
           });
       
-          // Lógica para criar página e adicionar conteúdo
-          for (let j = 0; j < pageInfo.pages.length; j++) {
+          for (let j = 0; j < pagesLength; j++) {
+
             pdfDoc.addPage();
-            for (let i = 0; i < range.count; i++) {
-              pdfDoc.switchToPage(i);
-              pageInfo.pages[j].data.forEach((data) => {
-                const content = data.content.toString();
-                pdfDoc.text(content, data.coordinates.x, data.coordinates.y);
-              });
-              pdfDoc.save();
+            pdfDoc.switchToPage(j);
+            // bug 
+            let data = pageInfo.pages[j].data;
+            for(let i = 0; i < data.length; i++) {  
+              let content = data[i].content
+              let stringContent = content.toString();
+              let { x, y } = data[i].coordinates;
+              pdfDoc.text(stringContent, x, y, {
+                align: 'justify',
+                ellipsis: true
+              })
             }
+            pdfDoc.save();
           }
       
           pdfDoc.end();
+          console.timeEnd('Creating PDF');
         });
       }
-      async createAndSavePDF(pageInfo, Response) {
+      
+      async createAndSavePDF(pageInfo:PageInfo, pagesLength:number, Response) {
         try {
-          const pdfData = await this.createPDF(pageInfo);
+          
+          const pdfData = await this.createPDF(pageInfo, pagesLength);
       
           Response.setHeader('Content-Length', pdfData.length);
           Response.setHeader('Content-Type', 'application/pdf');
