@@ -74,37 +74,40 @@ class Services {
       // Comportamento inesperado nesta função. O retorno inesperado pode ser devido às linhas (88 - 102)
       private async createPDF(pageInfo:PageInfo, pagesLength:number) {
         return new Promise<Buffer>((resolve, reject) => {
-          console.time('Creating PDF');
-          // Configuração do Pdfkit
-          const pdfDoc = pdfCreate 
-          const buffers: Buffer[] = [];
-          pdfDoc.on('data', buffers.push.bind(buffers));
+          try{
+            console.time('Creating PDF');
+            // Configuração do Pdfkit
+            const pdfDoc = pdfCreate 
+            const buffers: Buffer[] = [];
+            pdfDoc.on('data', buffers.push.bind(buffers));
+  
+            pdfDoc.on('end', () => {
+              const pdfData = Buffer.concat(buffers);
+              resolve(pdfData);
+            });
+        
+            for (let j = 0; j < pagesLength; j++) {
+  
+              pdfDoc.addPage();
+              pdfDoc.switchToPage(j);
+              // bug 
+              let data = pageInfo.pages[j].data;
+              for(let i = 0; i < data.length; i++) {  
 
-          pdfDoc.on('end', () => {
-            const pdfData = Buffer.concat(buffers);
-            resolve(pdfData);
-          });
-      
-          for (let j = 0; j < pagesLength; j++) {
-
-            pdfDoc.addPage();
-            pdfDoc.switchToPage(j);
-            // bug 
-            let data = pageInfo.pages[j].data;
-            for(let i = 0; i < data.length; i++) {  
-              let content = data[i].content
-              let stringContent = content.toString();
-              let { x, y } = data[i].coordinates;
-              pdfDoc.text(stringContent, x, y, {
-                align: 'justify',
-                ellipsis: true
-              })
+                let content = data[i].content
+                let stringContent = content.toString();
+                let { x, y } = data[i].coordinates;
+                pdfDoc.text(stringContent, x, y);
+                pdfDoc.moveDown();
+          
+              }
             }
-            pdfDoc.save();
+        
+            pdfDoc.end();
+            console.timeEnd('Creating PDF');
+          }catch(error){
+            reject(error);
           }
-      
-          pdfDoc.end();
-          console.timeEnd('Creating PDF');
         });
       }
       
