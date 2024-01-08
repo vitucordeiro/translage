@@ -1,27 +1,26 @@
 import pdfExtract from '../config/pdfExtract';
 import pdfCreate from '../config/pdfCreate';
-import { response, type Response } from 'express';
 import type { PDFInfo, PageInfo } from '../typings';
 import translate from '../config/translate';
-import fs from 'fs'
 
 /**  */
 class Services {
-    
+    // First step - extracting data from file sended by user
     async extractData(path, options?) {
         return new Promise<PDFInfo>((resolve, reject) => {
             pdfExtract.extract(path, options, async (err, data) => {
                 if (err) {
                     console.error(err);
                     reject(err);
-                } else {
-                    resolve(data)
-                }
+                } 
+                  resolve(data)
+                
             });
         });
     }
-    
+    // Second step - mapping content and details from extracted data
     async mappingContentPDF(data, to) {
+
         return new Promise<PageInfo>((resolve, reject) => {
             const pagesLength = data.pages.length;
             const pageInfo: PageInfo = {
@@ -57,7 +56,7 @@ class Services {
             resolve(pageInfo);
         });
     }
-
+    // Thrid step - translating mapping data with Google Cloud
     async translate(pageInfo: PageInfo) {
         const pagesLength = pageInfo.pages.length;
         for (let i = 0; i < pagesLength; i++) {
@@ -72,6 +71,7 @@ class Services {
         return pageInfo;
       }
       // Comportamento inesperado nesta função. O retorno inesperado pode ser devido às linhas (88 - 102)
+      
       private async createPDF(pageInfo:PageInfo, pagesLength:number) {
         return new Promise<Buffer>((resolve, reject) => {
           try{

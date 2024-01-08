@@ -1,0 +1,1 @@
+I found a bug in two instances of Services: CreatePDF and CreateAndSavePDF. Something is gonna wrong when the function started creating multiples pages and put data on the pages created. The phrases, words and sentences stay in weird format and are created more pages than it should,
