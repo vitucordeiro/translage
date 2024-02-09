@@ -118,14 +118,15 @@
                 alert("Please select a language and include the file.");
                 event.preventDefault(); // Impede o envio do formulário
             }
-            else if(toLanguage === "default"){
+            if(toLanguage === "default"){
                 alert("Please select a language");
                 event.preventDefault();
             }
-            else if(!file){
+            if(!file){
                 alert("Please select a file");
                 event.preventDefault();
             }
+            return null
         });
     </script>
 </body>
