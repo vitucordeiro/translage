@@ -1,0 +1,1 @@
+if bugs continues, try to keep logic intact, but changes the return's from services and create tests to handler info that from $PATH
